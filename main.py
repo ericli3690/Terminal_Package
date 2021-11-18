@@ -7,7 +7,7 @@ colour_print("LOCAL TOOLS VERSION 3.0\n", 'yellow')
 print("Testing validate.ask...\n")
 
 # passed variable
-num = 50
+num = 100
 
 ask(
 
