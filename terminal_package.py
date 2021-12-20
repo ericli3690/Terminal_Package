@@ -9,6 +9,7 @@ Includes: color_print, colored, marker, ask, delay
 from os import system
 from time import sleep
 
+# available colors
 colors = {'black': 30, 'red': 31, 'green': 32, 'yellow': 33, 'blue': 34, 'purple': 35, 'cyan': 36, 'white': 37}
 
 def color_print(text:str, color:str, is_input=False, insert_end='\n'):
@@ -56,8 +57,10 @@ def marker(color:str='white'):
   Returns the escape sequence for a given color.
   """
   if colors.get(color):
+    # just return the tag
     return f"\033[1;{colors[color]};40m"
   else:
+    # color not found
     raise ValueError("Invalid color: " + color)
 
 def ask(
@@ -79,17 +82,22 @@ def ask(
     ask("Enter a non-zero character.", myFilter)
   disallow_null is true by default; clear_console on user success and failure are both false by default; success color and failure color are green and red respectively by default
   """
+  # until the user enters a permissible answer
   while True:
+    # prompt the user
     reply = input(prompt)
 
+    # null catch
     if disallow_null and reply == "":
       if clear_console["on_false"]:
         system("clear")
       color_print("Please enter a value.", colors["failure"])
-      continue
+      continue # go back to the top of the loop
     
+    # use the dev-provided filter
     reply_allowed = reply_filter(reply)
 
+    # the dev-provided filter should return a tuple, if not, then log an error
     if type(reply_allowed) != tuple:
       raise ValueError(
         f"""
@@ -101,12 +109,14 @@ def ask(
           
         User: Please contact this program's developer.""")
 
+    # if the dev's filter returns true for the user's input, then print the dev's provided success statement and return the reply
     if reply_allowed[0]:
       if clear_console["on_true"]:
         system("clear")
       color_print(reply_allowed[1], colors["success"])
       return reply
     else:
+      # else try again, return to the top of the loop
       if clear_console["on_false"]:
         system("clear")
       color_print(reply_allowed[1], colors["failure"])
