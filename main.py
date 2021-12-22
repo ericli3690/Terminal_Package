@@ -6,7 +6,8 @@ color_print("TERMINAL PACKAGE VERSION 2.0\n", 'yellow')
 ###########################
 
 
-color_print(nest("TESTER SCRIPT\n", left_right_padding=2), 'red')
+color_print(nest("TESTER SCRIPT", left_right_padding=2), 'red')
+print()
 
 # testing nest
 print(nest(nest("The name's Bond.\nJames Bond.", "-", "|", "o", 2, 1), '-', '|', 'o', 2, 1))
